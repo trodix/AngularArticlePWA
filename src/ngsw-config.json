@@ -10,6 +10,9 @@
           "/index.html",
           "/*.css",
           "/*.js"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/**"
         ]
       }
     }, {
@@ -21,6 +24,20 @@
           "/assets/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "articles-api",
+      "urls": [
+        "https://localhost:8000/api"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 20,
+        "maxAge": "1d",
+        "timeout": "5s"
       }
     }
   ]
