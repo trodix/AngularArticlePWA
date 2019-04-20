@@ -1,4 +1,7 @@
 # ArticleAngularPWA
+## Endpoints
+- Books  
+`https://localhost:8000/api/books.json`
 ## Setup
 - Generate the app  
 `ng new ArticleAngularPWA`
