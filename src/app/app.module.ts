@@ -8,7 +8,14 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 
 // Material section
-import { MatTableModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import {
+  MatTableModule,
+  MatToolbarModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatListModule
+} from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
 // Conponents section

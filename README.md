@@ -20,3 +20,7 @@
 
 - Generate material nav  
 `ng generate @angular/material:material-nav --name=main-nav`
+
+- DatetimePicker  
+`npm install --save moment`  
+`npm install --save @angular/material-moment-adapter`  
