@@ -10,16 +10,23 @@ import { MatInputModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatDialogModule } from '@angular/material';
+import { MatRadioModule } from '@angular/material';
 
 import { BookRoutingModule } from './book-routing.module';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookAddComponent } from './book-add/book-add.component';
+import { RepDialogComponent } from './rep-dialog/rep-dialog.component';
 
 
 @NgModule({
   declarations: [
     BookListComponent,
-    BookAddComponent
+    BookAddComponent,
+    RepDialogComponent,
+  ],
+  entryComponents: [
+    RepDialogComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +40,9 @@ import { BookAddComponent } from './book-add/book-add.component';
     MatInputModule,
     MatIconModule,
     MatDatepickerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatDialogModule,
+    MatRadioModule
   ]
 })
 export class BookModule { }

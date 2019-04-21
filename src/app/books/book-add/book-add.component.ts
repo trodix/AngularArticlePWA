@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { RepDialogComponent } from '../rep-dialog/rep-dialog.component';
 
 @Component({
   selector: 'app-book-add',
@@ -11,7 +13,7 @@ export class BookAddComponent implements OnInit {
   titleFormControl: FormControl;
   dateFormControl: FormControl;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -23,6 +25,17 @@ export class BookAddComponent implements OnInit {
       Validators.required
     ]);
 
+  }
+
+  openRepDialog() {
+    const dialogRef = this.dialog.open(RepDialogComponent, {
+      width: '250px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      alert(`User choose ${result}`)
+    });
   }
 
 }
