@@ -29,9 +29,10 @@ import { ArticlesService } from './data/articles.service';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatTableModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     LayoutModule,
+    // Material
+    MatTableModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
