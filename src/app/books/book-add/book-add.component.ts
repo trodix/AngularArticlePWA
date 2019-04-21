@@ -34,7 +34,7 @@ export class BookAddComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      alert(`User choose ${result}`)
+      alert(`User choose ${result}`);
     });
   }
 
