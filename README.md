@@ -27,4 +27,4 @@
 
 ## Example dialog component
 
-- See commit 368a8413bf0cac4a94bbfc9443d6a6da031a6982
+- See commit [here](https://github.com/trodix/AngularArticlePWA/commit/368a8413bf0cac4a94bbfc9443d6a6da031a6982)
