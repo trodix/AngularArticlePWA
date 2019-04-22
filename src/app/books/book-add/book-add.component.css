@@ -3,7 +3,7 @@ mat-card {
     margin: auto;
 }
 
-mat-card .full-width {
+.full-width {
     width: 100%;
 }
 

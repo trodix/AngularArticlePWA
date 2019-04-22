@@ -16,17 +16,15 @@ import { MatRadioModule } from '@angular/material';
 import { BookRoutingModule } from './book-routing.module';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookAddComponent } from './book-add/book-add.component';
-import { RepDialogComponent } from './rep-dialog/rep-dialog.component';
 
 
 @NgModule({
   declarations: [
     BookListComponent,
-    BookAddComponent,
-    RepDialogComponent,
+    BookAddComponent
   ],
   entryComponents: [
-    RepDialogComponent
+    BookAddComponent
   ],
   imports: [
     CommonModule,

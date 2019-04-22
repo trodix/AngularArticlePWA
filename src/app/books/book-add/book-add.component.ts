@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { RepDialogComponent } from '../rep-dialog/rep-dialog.component';
+import { MatDialogRef } from '@angular/material';
+import { BookService } from '../../data/book.service';
 
 @Component({
   selector: 'app-book-add',
@@ -10,32 +9,29 @@ import { RepDialogComponent } from '../rep-dialog/rep-dialog.component';
 })
 export class BookAddComponent implements OnInit {
 
-  titleFormControl: FormControl;
-  dateFormControl: FormControl;
-
-  constructor(public dialog: MatDialog) { }
+  constructor(private bookService: BookService, public dialogRef: MatDialogRef<BookAddComponent>) { }
 
   ngOnInit() {
-
-    this.titleFormControl = new FormControl('', [
-      Validators.required
-    ]);
-
-    this.dateFormControl = new FormControl('', [
-      Validators.required
-    ]);
-
   }
 
-  openRepDialog() {
-    const dialogRef = this.dialog.open(RepDialogComponent, {
-      width: '250px',
-      data: {}
-    });
+  submit() {
+    if (this.bookService.form.valid) {
+      if (!this.bookService.form.get('$id').value) {
+        const req = this.bookService.insertBook(this.bookService.form.value);
+        req.subscribe(res => {
+          console.log('res:', res);
+        });
+      } else {
+        this.bookService.updateBook(this.bookService.form.value);
+      }
+      this.close();
+    }
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      alert(`User choose ${result}`);
-    });
+  close() {
+    this.bookService.form.reset();
+    this.bookService.initializeFormGroup();
+    this.dialogRef.close();
   }
 
 }

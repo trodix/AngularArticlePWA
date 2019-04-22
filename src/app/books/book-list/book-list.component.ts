@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ArticlesService } from '../../data/articles.service';
+import { BookService } from '../../data/book.service';
+import { BookAddComponent } from '../book-add/book-add.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-book-list',
@@ -13,11 +15,20 @@ export class BookListComponent implements OnInit {
   displayedColumns: string[] = ['title', 'author'];
   dataSource: any = this.books;
 
-  constructor(private articleService: ArticlesService) {}
+  constructor(private bookService: BookService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.articleService.getBooks().subscribe(res => {
+    this.bookService.getBooks().subscribe(res => {
       this.books = res;
     });
   }
+
+  addBookDialog() {
+    const dialogRef = this.dialog.open(BookAddComponent, {
+      autoFocus: true,
+      maxWidth: '600px',
+      minWidth: '350px'
+    });
+  }
+
 }

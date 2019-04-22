@@ -1,40 +1,43 @@
-<mat-card>
-  <mat-card-title>New Book</mat-card-title>
-  <mat-card-content>
-    <form>
+<h1 mat-dialog-title>Add a book</h1>
 
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Title" [formControl]="titleFormControl" [errorStateMatcher]="matcher">
-        <mat-hint align="end">Hint: The title of the book</mat-hint>
-        <mat-error align="end" *ngIf="titleFormControl.hasError('title') && !titleFormControl.hasError('required')">
-          Please enter a valid title
-        </mat-error>
-      </mat-form-field>
+<div mat-dialog-content>
 
-      <mat-form-field>
-        <input matInput placeholder="isbn">
-      </mat-form-field>
+  <form [formGroup]="bookService.form" (submit)="submit()">
+    <input type="hidden" formControlName="$id">
+    <mat-form-field>
+      <input matInput placeholder="Title" formControlName="title">
+      <mat-hint align="end">Hint: The title of the book</mat-hint>
+      <mat-error align="end" *ngIf="bookService.form.controls['title'].errors?.required">
+        Please enter a valid title
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Author">
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="isbn" formControlName="isbn">
+    </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Publication Date" [matDatepicker]="publicationDate" [formControl]="dateFormControl" [errorStateMatcher]="matcher">
-        <mat-datepicker-toggle matSuffix [for]="publicationDate"></mat-datepicker-toggle>
-        <mat-datepicker #publicationDate></mat-datepicker>
-        <mat-error align="end" *ngIf="dateFormControl.hasError('required')">
-          Please enter a valid date
-        </mat-error>
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Author" formControlName="author">
+    </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <textarea matInput placeholder="Description"></textarea>
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Publication Date" [matDatepicker]="publicationDate" formControlName="publicationDate">
+      <mat-datepicker-toggle matSuffix [for]="publicationDate"></mat-datepicker-toggle>
+      <mat-datepicker #publicationDate></mat-datepicker>
+      <mat-error align="end" *ngIf="bookService.form.controls['publicationDate'].errors?.required">
+        Please enter a valid date
+      </mat-error>
+    </mat-form-field>
 
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="openRepDialog()">SAVE</button>
-  </mat-card-actions>
-</mat-card>
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    </mat-form-field>
+
+
+    <div mat-dialog-actions>
+      <button mat-button color="secondary" (click)="close()">Cancel</button>
+      <button mat-button color="primary" type="submit" [disabled]="bookService.form.invalid">Save</button>
+    </div>
+  </form>
+
+</div>

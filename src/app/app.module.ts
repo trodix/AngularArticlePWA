@@ -23,7 +23,7 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 // Services section
-import { ArticlesService } from './data/articles.service';
+import { BookService } from './data/book.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { ArticlesService } from './data/articles.service';
     MatListModule
   ],
   providers: [
-    ArticlesService
+    BookService
   ],
   bootstrap: [AppComponent]
 })

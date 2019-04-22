@@ -1,4 +1,7 @@
 <div class="container">
+  <button mat-raised-button  (click)="addBookDialog()">
+    <mat-icon>add</mat-icon>Add a new book
+  </button>
   <div class="list-books" *ngIf="books; else noBooks">
       <h2>List of books</h2>
 
@@ -21,7 +24,6 @@
       
       </mat-table>
   </div>
-  <button mat-raised-button color="primary" routerLink="/books/add">Add a new book</button>
 </div>
 
 <ng-template #noBooks>
