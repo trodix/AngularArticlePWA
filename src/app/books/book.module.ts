@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatDialogModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material';
 
@@ -41,6 +41,9 @@ import { BookAddComponent } from './book-add/book-add.component';
     MatMomentDateModule,
     MatDialogModule,
     MatRadioModule
+  ],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ]
 })
 export class BookModule { }

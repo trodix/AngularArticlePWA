@@ -27,7 +27,8 @@ export class BookListComponent implements OnInit {
     const dialogRef = this.dialog.open(BookAddComponent, {
       autoFocus: true,
       maxWidth: '600px',
-      minWidth: '350px'
+      minWidth: '350px',
+      data: { books: this.books }
     });
   }
 
