@@ -10,7 +10,7 @@ export class BookService {
   constructor(private http: HttpClient) { }
 
   form: FormGroup = new FormGroup({
-    $id: new FormControl(null),
+    id: new FormControl(null),
     title: new FormControl('', [Validators.required]),
     isbn: new FormControl('', [Validators.required]),
     author: new FormControl('', [Validators.required]),
@@ -20,7 +20,7 @@ export class BookService {
 
   initializeFormGroup() {
     this.form.setValue({
-      $id: null,
+      id: null,
       title: '',
       isbn: '',
       author: '',
@@ -30,17 +30,17 @@ export class BookService {
   }
 
   getBooks() {
-    return this.http.get(`https://localhost:8000/api/books.json`);
+    return this.http.get(`https://192.168.1.11:8000/api/books.json`);
   }
 
   insertBook(book: any) {
     console.log('insert: ', book);
-    return this.http.post(`https://localhost:8000/api/books.json`, book);
+    return this.http.post(`https://192.168.1.11:8000/api/books.json`, book);
   }
 
   updateBook(book: any) {
     console.log('update: ', book);
-    return this.http.post(`https://localhost:8000/api/books/${book.$id}.json`, book);
+    return this.http.post(`https://192.168.1.11:8000/api/books/${book.id}.json`, book);
   }
 
 }

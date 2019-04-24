@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BookService } from '../../data/book.service';
 
 @Component({
@@ -9,17 +9,21 @@ import { BookService } from '../../data/book.service';
 })
 export class BookAddComponent implements OnInit {
 
-  constructor(private bookService: BookService, public dialogRef: MatDialogRef<BookAddComponent>) { }
+  constructor(
+    public bookService: BookService,
+    public dialogRef: MatDialogRef<BookAddComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }
 
   submit() {
     if (this.bookService.form.valid) {
-      if (!this.bookService.form.get('$id').value) {
+      if (!this.bookService.form.get('id').value) {
         const req = this.bookService.insertBook(this.bookService.form.value);
         req.subscribe(res => {
-          console.log('res:', res);
+          console.log('response from the server:', res);
+          this.data.books.push(res); // data update without reload doesn't works
         });
       } else {
         this.bookService.updateBook(this.bookService.form.value);
