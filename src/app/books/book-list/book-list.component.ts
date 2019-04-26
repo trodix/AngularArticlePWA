@@ -12,7 +12,7 @@ export class BookListComponent implements OnInit {
 
   books: any;
 
-  displayedColumns: string[] = ['title', 'author'];
+  displayedColumns: string[] = ['title', 'author', 'actions'];
   dataSource: any = this.books;
 
   constructor(private bookService: BookService, private dialog: MatDialog) {}
@@ -23,13 +23,21 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  addBookDialog() {
+  addBookDialog(bookEdit) {
     const dialogRef = this.dialog.open(BookAddComponent, {
       autoFocus: true,
       maxWidth: '600px',
       minWidth: '350px',
-      data: { books: this.books }
+      data: { books: this.books, bookEdit }
     });
+  }
+
+  edit(book) {
+    this.addBookDialog(book);
+  }
+
+  delete(id) {
+    this.bookService.deleteBook(id);
   }
 
 }
