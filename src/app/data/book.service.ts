@@ -16,7 +16,7 @@ export class BookService {
     author: new FormControl('', [Validators.required]),
     publicationDate: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    reviews: new FormControl('', [])
+    reviews: new FormControl([], [])
   });
 
   initializeFormGroup() {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from '../../data/book.service';
+import { BookService } from 'src/app/data/book.service';
 import { BookAddComponent } from '../book-add/book-add.component';
 import { MatDialog } from '@angular/material';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-book-list',
@@ -15,7 +16,11 @@ export class BookListComponent implements OnInit {
   displayedColumns: string[] = ['title', 'author', 'actions'];
   dataSource: any = this.books;
 
-  constructor(private bookService: BookService, private dialog: MatDialog) {}
+  constructor(
+    private bookService: BookService,
+    private dialog: MatDialog,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit() {
     this.bookService.getBooks().subscribe(res => {
@@ -24,7 +29,7 @@ export class BookListComponent implements OnInit {
   }
 
   addBookDialog(bookEdit) {
-    const dialogRef = this.dialog.open(BookAddComponent, {
+    return this.dialog.open(BookAddComponent, {
       autoFocus: true,
       maxWidth: '600px',
       minWidth: '350px',
@@ -37,7 +42,16 @@ export class BookListComponent implements OnInit {
   }
 
   delete(id) {
-    this.bookService.deleteBook(id);
+    this.dialogService.openConfirmDialog('Are you sure to delete this record ?')
+    .afterClosed().subscribe(res => {
+      if (res === true) {
+        const req = this.bookService.deleteBook(id);
+        req.subscribe((data) => {
+          console.log(data);
+        });
+        this.books = this.books.filter(book => book.id !== id);
+      }
+    });
   }
 
 }
