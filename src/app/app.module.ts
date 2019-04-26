@@ -15,7 +15,8 @@ import {
   MatSidenavModule,
   MatIconModule,
   MatListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -51,7 +52,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [
     BookService

@@ -3,6 +3,8 @@ import { BookService } from 'src/app/data/book.service';
 import { BookAddComponent } from '../book-add/book-add.component';
 import { MatDialog } from '@angular/material';
 import { DialogService } from 'src/app/services/dialog.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-book-list',
@@ -18,6 +20,7 @@ export class BookListComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
+    private notificationService: NotificationService,
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {}
@@ -43,13 +46,16 @@ export class BookListComponent implements OnInit {
 
   delete(id) {
     this.dialogService.openConfirmDialog('Are you sure to delete this record ?')
-    .afterClosed().subscribe(res => {
-      if (res === true) {
+    .afterClosed().subscribe(dialogResp => {
+      if (dialogResp === true) {
         const req = this.bookService.deleteBook(id);
-        req.subscribe((data) => {
-          console.log(data);
+        req.subscribe(res => {
+          console.log('response from the server:', res);
+          this.notificationService.success(`:: Book removed successfully`);
+          this.books = this.books.filter(book => book.id !== id);
+        }, (err: HttpErrorResponse) => {
+          this.notificationService.error(`:: An error has occured, book not removed`);
         });
-        this.books = this.books.filter(book => book.id !== id);
       }
     });
   }
