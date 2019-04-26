@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   providedIn: 'root'
 })
 export class BookService {
+  notificationService: any;
 
   constructor(private http: HttpClient) { }
 
