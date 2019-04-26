@@ -28,7 +28,7 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  addBookDialog(bookEdit) {
+  addBookDialog(bookEdit = null) {
     return this.dialog.open(BookAddComponent, {
       autoFocus: true,
       maxWidth: '600px',
