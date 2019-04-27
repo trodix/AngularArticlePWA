@@ -48,14 +48,8 @@ export class BookListComponent implements OnInit {
     this.dialogService.openConfirmDialog('Are you sure to delete this record ?')
     .afterClosed().subscribe(dialogResp => {
       if (dialogResp === true) {
-        const req = this.bookService.deleteBook(id);
-        req.subscribe(res => {
-          console.log('response from the server:', res);
-          this.notificationService.success(`:: Book removed successfully`);
-          this.books = this.books.filter(book => book.id !== id);
-        }, (err: HttpErrorResponse) => {
-          this.notificationService.error(`:: An error has occured, book not removed`);
-        });
+        this.bookService.deleteBook(id);
+        this.books = this.books.filter(book => book.id !== id);
       }
     });
   }
