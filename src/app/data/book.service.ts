@@ -5,6 +5,7 @@ import { OnlineOfflineService } from 'src/app/services/online-offline-service.se
 import { NotificationService } from 'src/app/services/notification.service';
 import Book from 'src/app/models/book/book.model';
 import Dexie from 'dexie';
+import { Observable } from 'rxjs';
 // import 'dexie-observable';
 
 @Injectable({
@@ -50,7 +51,7 @@ export class BookService {
     this.db.version(1).stores({
       books: 'id,title,isbn,author,publicationDate,description,reviews'
     });
-    // this.synchronizeFromDbServer();
+    this.synchronizeFromDbServer();
   }
 
   private synchronizeFromDbServer() {
@@ -107,8 +108,8 @@ export class BookService {
     this.form.setValue(book);
   }
 
-  getBooks() {
-    return this.http.get(`https://127.0.0.1:8000/api/books.json`);
+  getBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(`https://127.0.0.1:8000/api/books.json`);
   }
 
   async loadBooks() {

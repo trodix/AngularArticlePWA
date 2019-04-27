@@ -5,6 +5,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 main { margin: auto 10px; }
 
+.hide {
+    display: none;
+}
+
+mat-footer-row mat-footer-cell {
+    justify-content: center;
+    font-style: italic;
+}
+
 snack-bar-container.notification.success {
     background-color: #5cb85c;
     color: #fff;

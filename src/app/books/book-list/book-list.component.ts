@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BookService } from 'src/app/data/book.service';
 import { BookAddComponent } from '../book-add/book-add.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { DialogService } from 'src/app/services/dialog.service';
 import Book from 'src/app/models/book/book.model';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -13,10 +13,9 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class BookListComponent implements OnInit {
 
-  books: Book[];
-
   displayedColumns: string[] = ['title', 'author', 'actions'];
-  dataSource: Book[] = this.books;
+  dataSource: MatTableDataSource<Book>;
+  books: Book[];
 
   constructor(
     private bookService: BookService,
@@ -24,6 +23,9 @@ export class BookListComponent implements OnInit {
     private dialogService: DialogService,
     private notificationService: NotificationService
   ) {}
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
     this.loadData();
@@ -36,13 +38,16 @@ export class BookListComponent implements OnInit {
   loadData() {
     // This returns fucking undefined !
     // this.bookService.loadBooks().then((data: Book[]) => {
-    //   console.log('books', data);
-    //   this.books = data;
+    //   console.log('dataSource', data);
+    //   this.dataSource = data;
     // }).catch((err) => {
     //   console.log(err);
     // });
     this.bookService.getBooks().subscribe((data: Book[]) => {
-      this.books = data;
+      this.dataSource = new MatTableDataSource<Book>(data);
+      this.books = this.dataSource.data;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
       this.notificationService.success(`:: Books loaded from the server`);
     }, err => this.bookService.loadBooks());
   }
@@ -65,7 +70,7 @@ export class BookListComponent implements OnInit {
     .afterClosed().subscribe(dialogResp => {
       if (dialogResp === true) {
         this.bookService.deleteBook(id);
-        this.books = this.books.filter((book: Book) => book.id !== id);
+        this.dataSource.data = this.dataSource.data.filter((book: Book) => book.id !== id);
       }
     });
   }

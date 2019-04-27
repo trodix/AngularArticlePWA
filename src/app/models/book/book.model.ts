@@ -1,4 +1,4 @@
-export default class BookModule {
+export default class Book {
   id: number;
   title: string;
   author: string;
