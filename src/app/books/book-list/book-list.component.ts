@@ -16,6 +16,7 @@ export class BookListComponent implements OnInit {
   displayedColumns: string[] = ['title', 'author', 'actions'];
   dataSource: MatTableDataSource<Book>;
   books: Book[];
+  searchKey: string;
 
   constructor(
     private bookService: BookService,
@@ -73,6 +74,15 @@ export class BookListComponent implements OnInit {
         this.dataSource.data = this.dataSource.data.filter((book: Book) => book.id !== id);
       }
     });
+  }
+
+  onSearchKeyClear() {
+    this.searchKey = '';
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
 }

@@ -5,3 +5,13 @@ table {
 .no-books {
     font-size: 1.5em;
 }
+
+.action-bar > * {
+    margin: 0 10px;
+}
+
+.search-form-field {
+    min-width: 200px;
+    max-width: 500px;
+    width: 100%;
+}
