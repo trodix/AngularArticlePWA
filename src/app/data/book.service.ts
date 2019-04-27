@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OnlineOfflineService } from 'src/app/services/online-offline-service.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import Book from 'src/app/models/book/book.model';
 import Dexie from 'dexie';
 // import 'dexie-observable';
 
@@ -49,7 +50,7 @@ export class BookService {
     this.db.version(1).stores({
       books: 'id,title,isbn,author,publicationDate,description,reviews'
     });
-    this.synchronizeFromDbServer();
+    // this.synchronizeFromDbServer();
   }
 
   private synchronizeFromDbServer() {
@@ -65,11 +66,11 @@ export class BookService {
   }
 
   private async sendItemsFromIndexedDb() {
-    const allItems: any[] = await this.db.books.toArray();
+    const allItems: Book[] = await this.db.books.toArray();
     let success: boolean = true;
     let count = 0;
 
-    allItems.forEach((item: any) => {
+    allItems.forEach((item: Book) => {
       // send items to backend...
       const res = this.insertBook(item);
       if (res !== null) {
@@ -101,7 +102,7 @@ export class BookService {
     });
   }
 
-  populateForm(book) {
+  populateForm(book: Book) {
     console.log(book);
     this.form.setValue(book);
   }
@@ -110,7 +111,20 @@ export class BookService {
     return this.http.get(`https://127.0.0.1:8000/api/books.json`);
   }
 
-  insertBook(book: any) {
+  async loadBooks() {
+    if (this.onlineOfflineService.isOnline) {
+      this.getBooks().subscribe((res: Book[]) => {
+        this.notificationService.success(`:: Books loaded from the server`);
+        return res;
+      });
+    } else {
+      const allItems: Book[] = await this.db.books.toArray();
+      this.notificationService.success(`:: Books loaded from locale database`);
+      return allItems;
+    }
+  }
+
+  insertBook(book: Book) {
     console.log('insert:', book);
     if (this.onlineOfflineService.isOnline) {
       this.http.post(`https://127.0.0.1:8000/api/books`, book).subscribe(res => {
@@ -122,7 +136,7 @@ export class BookService {
       });
     } else {
       this.db.books.add(book, book.id).then(async () => {
-        const allItems: any[] = await this.db.books.toArray();
+        const allItems: Book[] = await this.db.books.toArray();
         console.log('saved in DB, DB is now', allItems);
         this.notificationService.success(`:: Book created`);
         return book;
@@ -134,7 +148,7 @@ export class BookService {
     }
   }
 
-  updateBook(book: any) {
+  updateBook(book: Book) {
     console.log('update:', book);
     if (this.onlineOfflineService.isOnline) {
       this.http.put(`https://127.0.0.1:8000/api/books/${book.id}`, book).subscribe(res => {
@@ -146,7 +160,7 @@ export class BookService {
       });
     } else {
       this.db.books.put(book).then(async () => {
-        const allItems: any[] = await this.db.books.toArray();
+        const allItems: Book[] = await this.db.books.toArray();
         console.log('saved in DB, DB is now', allItems);
         this.notificationService.success(`:: Book updated`);
         return book;
@@ -158,7 +172,7 @@ export class BookService {
     }
   }
 
-  deleteBook(id) {
+  deleteBook(id: number) {
     console.log('delete:', id);
     if (this.onlineOfflineService.isOnline) {
       this.http.delete(`https://127.0.0.1:8000/api/books/${id}`).subscribe(res => {

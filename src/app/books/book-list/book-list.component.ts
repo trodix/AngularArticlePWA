@@ -3,8 +3,8 @@ import { BookService } from 'src/app/data/book.service';
 import { BookAddComponent } from '../book-add/book-add.component';
 import { MatDialog } from '@angular/material';
 import { DialogService } from 'src/app/services/dialog.service';
+import Book from 'src/app/models/book/book.model';
 import { NotificationService } from 'src/app/services/notification.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-book-list',
@@ -13,25 +13,41 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class BookListComponent implements OnInit {
 
-  books: any;
+  books: Book[];
 
   displayedColumns: string[] = ['title', 'author', 'actions'];
-  dataSource: any = this.books;
+  dataSource: Book[] = this.books;
 
   constructor(
     private bookService: BookService,
-    private notificationService: NotificationService,
     private dialog: MatDialog,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
-    this.bookService.getBooks().subscribe(res => {
-      this.books = res;
-    });
+    this.loadData();
   }
 
-  addBookDialog(bookEdit = null) {
+  refresh() {
+    this.loadData();
+  }
+
+  loadData() {
+    // This returns fucking undefined !
+    // this.bookService.loadBooks().then((data: Book[]) => {
+    //   console.log('books', data);
+    //   this.books = data;
+    // }).catch((err) => {
+    //   console.log(err);
+    // });
+    this.bookService.getBooks().subscribe((data: Book[]) => {
+      this.books = data;
+      this.notificationService.success(`:: Books loaded from the server`);
+    }, err => this.bookService.loadBooks());
+  }
+
+  addBookDialog(bookEdit: Book = null) {
     return this.dialog.open(BookAddComponent, {
       autoFocus: true,
       maxWidth: '600px',
@@ -44,12 +60,12 @@ export class BookListComponent implements OnInit {
     this.addBookDialog(book);
   }
 
-  delete(id) {
+  delete(id: number) {
     this.dialogService.openConfirmDialog('Are you sure to delete this record ?')
     .afterClosed().subscribe(dialogResp => {
       if (dialogResp === true) {
         this.bookService.deleteBook(id);
-        this.books = this.books.filter(book => book.id !== id);
+        this.books = this.books.filter((book: Book) => book.id !== id);
       }
     });
   }
